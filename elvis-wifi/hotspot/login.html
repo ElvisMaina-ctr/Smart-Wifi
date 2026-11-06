@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ELVIS Wi-Fi</title>
+</head>
+<body>
+  <p>Redirecting to ELVIS Wi-Fi payment portal…</p>
+
+  <script>
+    // RouterOS substitutes these variables when serving the hotspot login page.
+    const login = "$(link-login-only)";
+    const original = "$(link-orig)";
+    const portal = "https://YOUR-PUBLIC-DOMAIN.example/";
+
+    const query = new URLSearchParams({
+      "link-login-only": login,
+      "link-orig": original
+    });
+
+    window.location.replace(portal + "?" + query.toString());
+  </script>
+</body>
+</html>
