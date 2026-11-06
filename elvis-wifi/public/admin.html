@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ELVIS Wi-Fi | Admin</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .admin-wrap{width:min(100% - 28px,1100px);margin:35px auto;flex:1}
+    .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:20px 0}
+    .stat{background:white;border:1px solid var(--line);border-radius:15px;padding:18px}
+    .stat span{display:block;color:var(--muted);font-size:.8rem}
+    .stat strong{display:block;color:var(--green);font-size:1.7rem;margin-top:7px}
+    .table-wrap{overflow-x:auto;background:white;border:1px solid var(--line);border-radius:15px}
+    table{width:100%;border-collapse:collapse;min-width:700px;font-size:.85rem}
+    th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line)}
+    th{background:#f5faf6;color:var(--green)}
+    .status{font-weight:700;text-transform:capitalize}
+    @media(max-width:650px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="/"><span class="brand-icon">⌁</span><span>ELVIS <strong>Wi-Fi</strong></span></a>
+  <span class="secure-label">Administrator dashboard</span>
+</header>
+<main class="admin-wrap">
+  <p class="eyebrow">BUSINESS OVERVIEW</p>
+  <h1>Admin dashboard</h1>
+  <p class="hero-copy">Payment and customer activity overview.</p>
+  <section class="stats">
+    <div class="stat"><span>Total collected (Ksh)</span><strong id="collected">—</strong></div>
+    <div class="stat"><span>Active packages</span><strong id="active">—</strong></div>
+    <div class="stat"><span>Pending payments</span><strong id="pending">—</strong></div>
+    <div class="stat"><span>Expired packages</span><strong id="expired">—</strong></div>
+  </section>
+  <h2 style="margin:25px 0 12px">Recent transactions</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Date</th><th>Phone</th><th>Package</th><th>Amount</th><th>Status</th><th>M-Pesa receipt</th></tr></thead>
+      <tbody id="transactions"><tr><td colspan="6">Loading…</td></tr></tbody>
+    </table>
+  </div>
+  <p id="admin-error" class="message error"></p>
+</main>
+<footer><p>© <span id="year"></span> ELVIS Wi-Fi administration</p></footer>
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+async function loadDashboard(){
+  const response = await fetch("/api/admin/summary");
+  if(!response.ok) throw new Error("Could not load dashboard data. Refresh and sign in again.");
+  const data = await response.json();
+  document.getElementById("collected").textContent = Number(data.totals.collected || 0).toLocaleString();
+  document.getElementById("active").textContent = data.totals.active || 0;
+  document.getElementById("pending").textContent = data.totals.pending || 0;
+  document.getElementById("expired").textContent = data.totals.expired || 0;
+  const body = document.getElementById("transactions");
+  body.replaceChildren();
+  if(!data.recent.length){body.innerHTML="<tr><td colspan='6'>No transactions yet.</td></tr>";return;}
+  data.recent.forEach(item=>{
+    const tr=document.createElement("tr");
+    [new Date(item.created_at).toLocaleString(),item.phone,item.package_id,
+     "Ksh "+item.amount,item.status,item.mpesa_receipt || "—"].forEach(value=>{
+       const td=document.createElement("td");td.textContent=value;tr.appendChild(td);
+    });
+    body.appendChild(tr);
+  });
+}
+loadDashboard().catch(e=>document.getElementById("admin-error").textContent=e.message);
+setInterval(()=>loadDashboard().catch(()=>{}),30000);
+</script>
+</body>
+</html>
