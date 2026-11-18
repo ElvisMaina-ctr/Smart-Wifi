@@ -25,10 +25,10 @@ async function accessToken() {
 }
 
 function normalizePhone(input) {
-  let phone = String(input || "").replace(/[\\s+()-]/g, "");
+  let phone = String(input || "").replace(/[\s+()-]/g, "");
   if (phone.startsWith("0")) phone = "254" + phone.slice(1);
   if (phone.startsWith("7") || phone.startsWith("1")) phone = "254" + phone;
-  if (!/^254[17]\\d{8}$/.test(phone)) {
+  if (!/^254[17]\d{8}$/.test(phone)) {
     throw new Error("Enter a valid Kenyan Safaricom number, e.g. 07XXXXXXXX");
   }
   return phone;
