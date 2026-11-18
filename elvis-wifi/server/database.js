@@ -29,4 +29,4 @@ db.exec(`
 
 module.exports = db;
 
-cost db -
+
