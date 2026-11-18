@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#126b45">
+  <meta name="description" content="Buy affordable ELVIS Wi-Fi internet access using M-Pesa.">
+
+  <title>ELVIS Wi-Fi | Get Connected</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Website Header -->
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="ELVIS Wi-Fi home">
+      <span class="brand-icon" aria-hidden="true">⌁</span>
+      <span>ELVIS <strong>Wi-Fi</strong></span>
+    </a>
+
+    <span class="secure-label">
+      Fast • Affordable • Reliable
+    </span>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+
+    <!-- Welcome Section -->
+    <section class="hero">
+      <div class="wifi-mark" aria-hidden="true">◉</div>
+
+      <p class="eyebrow">WELCOME TO</p>
+
+      <h1>Stay connected.</h1>
+
+      <p class="hero-copy">
+        Choose an internet package and pay securely with M-Pesa.
+      </p>
+    </section>
+
+    <!-- Internet Packages and Payment -->
+    <section class="panel" aria-labelledby="packages-title">
+
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">INTERNET PLANS</p>
+          <h2 id="packages-title">Choose your package</h2>
+        </div>
+
+        <span class="live-dot">Available</span>
+      </div>
+
+      <!-- Packages are loaded using JavaScript -->
+      <div id="packages" class="package-grid" aria-live="polite">
+        <p>Loading packages…</p>
+      </div>
+
+      <!-- Payment Form -->
+      <form id="payment-form">
+
+        <label for="phone">M-Pesa phone number</label>
+
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          inputmode="tel"
+          autocomplete="tel"
+          placeholder="07XX XXX XXX"
+          required
+        >
+
+        <input
+          id="package-id"
+          type="hidden"
+          name="packageId"
+        >
+
+        <button
+          id="pay-button"
+          class="primary-button"
+          type="submit"
+          disabled
+        >
+          Pay with M-Pesa
+        </button>
+
+        <p class="small-note">
+          An M-Pesa STK Push will appear on your phone.
+          Never share your PIN.
+        </p>
+
+      </form>
+
+      <!-- Payment Status -->
+      <div
+        id="message"
+        class="message"
+        role="status"
+        aria-live="polite">
+      </div>
+
+      <!-- Internet Connection Status -->
+      <div
+        id="connection"
+        class="connection-card"
+        hidden>
+      </div>
+
+    </section>
+
+    <!-- Customer Support -->
+    <section class="help">
+      <h2>Need help?</h2>
+
+      <p>
+        If payment succeeds but access does not start,
+        contact the ELVIS Wi-Fi administrator and provide
+        your payment receipt.
+      </p>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>
+      © <span id="year"></span> ELVIS Wi-Fi.
+      All rights reserved.
+    </p>
+
+    <p>Secure payments powered by M-Pesa.</p>
+  </footer>
+
+  <script src="app.js"></script>
+
+</body>
+</html>
